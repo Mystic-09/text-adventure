@@ -4,12 +4,13 @@ class Game
 {
 	// Private fields
 	private Parser parser;
-	private Room currentRoom;
+	private Player player;
 
 	// Constructor
 	public Game()
 	{
 		parser = new Parser();
+		player = new Player();
 		CreateRooms();
 	}
 
@@ -23,12 +24,22 @@ class Game
 		Room lab = new Room("in a computing lab");
 		Room office = new Room("in the computing admin office");
 		Room test = new Room("in a test room");
+		Room theatreUpstairs = new Room("upstairs in the lecture theatre");
+		Room labBasement = new Room("in the lab basement");
 
 		// Initialise room exits
 		outside.AddExit("east", theatre);
 		outside.AddExit("south", lab);
 		outside.AddExit("west", pub);
 		test.AddExit("weg", outside);
+
+		//up down exits
+		theatre.AddExit("up", theatreUpstairs);
+		theatreUpstairs.AddExit("down", theatre);
+
+		lab.AddExit("down", labBasement);
+		labBasement.AddExit("up", lab);
+		//other exits
 
 		theatre.AddExit("west", outside);
 
@@ -45,7 +56,7 @@ class Game
 		// ...
 
 		// Start game outside
-		currentRoom = outside;
+		player.CurrentRoom = outside;
 	}
 
 	//  Main play routine. Loops until end of play.
@@ -74,7 +85,7 @@ class Game
 		Console.WriteLine("Zuul is a new, incredibly boring adventure game.");
 		Console.WriteLine("Type 'help' if you need help.");
 		Console.WriteLine();
-		Console.WriteLine(currentRoom.GetLongDescription());
+		Console.WriteLine(player.CurrentRoom.GetLongDescription());
 	}
 
 	// Given a command, process (that is: execute) the command.
@@ -100,6 +111,12 @@ class Game
 				break;
 			case "quit":
 				wantToQuit = true;
+				break;
+			case "look":
+				Console.WriteLine(player.CurrentRoom.GetLongDescription());
+				break;
+			case "status":
+				Console.WriteLine("You have " + player.GetHealth() + " health.");
 				break;
 		}
 
@@ -135,14 +152,14 @@ class Game
 		string direction = command.SecondWord;
 
 		// Try to go to the next room.
-		Room nextRoom = currentRoom.GetExit(direction);
+		Room nextRoom = player.CurrentRoom.GetExit(direction);
 		if (nextRoom == null)
 		{
 			Console.WriteLine("There is no door to "+direction+"!");
 			return;
 		}
 
-		currentRoom = nextRoom;
-		Console.WriteLine(currentRoom.GetLongDescription());
+		player.CurrentRoom = nextRoom;
+		Console.WriteLine(player.CurrentRoom.GetLongDescription());
 	}
 }
