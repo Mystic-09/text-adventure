@@ -51,10 +51,16 @@ class Game
 		office.AddExit("west", lab);
 
 		// Create your Items here
-		// ...
-		// And add them to the Rooms
-		// ...
+		Item key = new Item(1, "a key");
+		Item sword = new Item(5, "a sword");
+		Item potion = new Item(2, "a healing potion");
 
+		// And add them to the Rooms
+		outside.AddItem(key);
+		lab.AddItem(sword);
+		theatre.AddItem(potion);
+
+		
 		// Start game outside
 		player.CurrentRoom = outside;
 	}
