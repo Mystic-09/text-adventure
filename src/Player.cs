@@ -5,7 +5,7 @@ class Player
     // Fields
     private int health;
 
-    // Auto property voor currentRoom
+    // Current Room van de speler
     public Room CurrentRoom { get; set; }
 
     // Constructor
@@ -15,7 +15,7 @@ class Player
         CurrentRoom = null;
     }
 
-    // Speler verliest health
+    // Damage speler
     public void Damage(int amount)
     {
         health -= amount;

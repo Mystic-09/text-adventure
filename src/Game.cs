@@ -69,6 +69,13 @@ class Game
 		bool finished = false;
 		while (!finished)
 		{
+			// Check if player is alive
+			if (!player.IsAlive())
+			{
+				Console.WriteLine("You have died!");
+				break;
+			}
+
 			Command command = parser.GetCommand();
 			finished = ProcessCommand(command);
 		}
@@ -113,7 +120,7 @@ class Game
 				wantToQuit = true;
 				break;
 			case "look":
-				Console.WriteLine(player.CurrentRoom.GetLongDescription());
+				PrintLook();
 				break;
 			case "status":
 				Console.WriteLine("You have " + player.GetHealth() + " health.");
@@ -129,6 +136,13 @@ class Game
 	
 	// Print out some help information.
 	// Here we print the mission and a list of the command words.
+
+
+	private void PrintLook()
+	{
+		Console.WriteLine(player.CurrentRoom.GetLongDescription());
+	}
+
 	private void PrintHelp()
 	{
 		Console.WriteLine("You are lost. You are alone.");
@@ -161,5 +175,17 @@ class Game
 
 		player.CurrentRoom = nextRoom;
 		Console.WriteLine(player.CurrentRoom.GetLongDescription());
+
+
+		// Player damage
+		player.Damage(10);
+
+
+		// Kijk of de speler het einde heeft bereikt
+		if (player.CurrentRoom.GetLongDescription() == "You are in the office.")
+		{
+    	Console.WriteLine("You have reached the office. You win!");
+    	Environment.Exit(0);
+		}
 	}
 }
