@@ -56,9 +56,9 @@ class Game
 		Item potion = new Item(2, "a healing potion");
 
 		// And add them to the Rooms
-		outside.AddItem(key);
-		lab.AddItem(sword);
-		theatre.AddItem(potion);
+		outside.Chest.Put("key", key);
+		lab.Chest.Put("sword", sword);
+		theatre.Chest.Put("potion", potion);
 
 		
 		// Start game outside
@@ -129,8 +129,15 @@ class Game
 				PrintLook();
 				break;
 			case "status":
-				Console.WriteLine("You have " + player.GetHealth() + " health.");
+				PrintStatus();
 				break;
+			case "take":
+    			player.TakeFromChest(command.SecondWord);
+    			break;
+			case "drop":
+    			player.DropToChest(command.SecondWord);
+    			break;
+
 		}
 
 		return wantToQuit;
@@ -147,6 +154,13 @@ class Game
 	private void PrintLook()
 	{
 		Console.WriteLine(player.CurrentRoom.GetLongDescription());
+	}
+
+	private void PrintStatus()
+	{
+		Console.WriteLine("You have " + player.GetHealth() + " health.");
+		Console.WriteLine("Health: " + player.GetHealth());
+    	Console.WriteLine("Inventory: " + player.ShowInventory());
 	}
 
 	private void PrintHelp()

@@ -15,6 +15,7 @@ class Room
 		description = desc;
 		exits = new Dictionary<string, Room>();
 		items = new List<Item>(); // Initialize the items list
+		chest = new Inventory(999999);
 	}
 
 	// Define an exit for this room.
@@ -37,6 +38,8 @@ class Room
 		string str = "You are ";
 		str += description;
 		str += ".\n";
+		str += GetItemsString();
+		str += "\n";
 		str += GetExitString();
 		return str;
 	}
@@ -67,4 +70,29 @@ class Room
 	{
 		items.Add(item);
 	}
+
+	// Haal een item uit de kamer
+	public string GetItemsString()
+	{
+		if (items.Count == 0)
+		{
+			return "Items: none";
+		}
+
+		string result = "Items: ";
+		foreach (Item item in items)
+		{
+			result += item.Description + " ";
+		}
+		return result.Trim();
+	}
+
+	private Inventory chest;
+
+	public Inventory Chest
+	{
+		get { return chest; }
+	}
+
+
 }

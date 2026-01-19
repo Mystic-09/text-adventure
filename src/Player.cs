@@ -8,12 +8,62 @@ class Player
     // Current Room van de speler
     public Room CurrentRoom { get; set; }
 
+    private Inventory backpack;
+
     // Constructor
     public Player()
     {
         health = 100;
         CurrentRoom = null;
+        backpack = new Inventory(25);
     }
+
+    // Take item from the room's chest
+    public bool TakeFromChest(string itemName)
+    {
+        Item item = CurrentRoom.Chest.Get(itemName);
+
+        if (item == null)
+        {
+            Console.WriteLine("Item is not in this room.");
+            return false;
+        }
+
+        if (!backpack.Put(itemName, item))
+        {
+            Console.WriteLine("Item doesn't fit in your inventory.");
+            CurrentRoom.Chest.Put(itemName, item);
+            return false;
+        }
+
+        Console.WriteLine("You picked up the " + itemName + ".");
+        return true;
+    }
+
+
+    // Drop item to the room's chest
+    public bool DropToChest(string itemName)
+    {
+        Item item = backpack.Get(itemName);
+
+        if (item == null)
+        {
+            Console.WriteLine("You don't have that item.");
+            return false;
+        }
+
+        CurrentRoom.Chest.Put(itemName, item);
+        Console.WriteLine("You dropped the " + itemName + ".");
+        return true;
+    }
+
+    // Show inventory contents
+    public string ShowInventory()
+    {
+        return backpack.Show();
+    }
+
+
 
     // Damage speler
     public void Damage(int amount)
