@@ -96,4 +96,26 @@ class Player
     {
         return health;
     }
+
+    public string Use(string itemName)
+{
+    if (string.IsNullOrEmpty(itemName))
+    {
+        return "Use what?";
+    }
+
+    Item item = backpack.HasItem(itemName);
+
+    if (item == null)
+    {
+        return "You don't have that item.";
+    }
+
+    return "You used the " + itemName + ".";
+}
+
+
+
+
+
 }

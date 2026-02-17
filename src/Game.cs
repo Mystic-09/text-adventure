@@ -26,6 +26,7 @@ class Game
 		Room test = new Room("in a test room");
 		Room theatreUpstairs = new Room("upstairs in the lecture theatre");
 		Room labBasement = new Room("in the lab basement");
+		Room secret = new Room("in a secret room behind the pub");
 
 		// Initialise room exits
 		outside.AddExit("east", theatre);
@@ -44,6 +45,7 @@ class Game
 		theatre.AddExit("west", outside);
 
 		pub.AddExit("east", outside);
+		pub.AddExit("north", secret);
 
 		lab.AddExit("north", outside);
 		lab.AddExit("east", office);
@@ -137,6 +139,21 @@ class Game
 			case "drop":
     			player.DropToChest(command.SecondWord);
     			break;
+			case "use":
+				if (command.HasThirdWord())
+				{
+					Console.WriteLine("You used " 
+						+ command.SecondWord 
+						+ " on " 
+						+ command.ThirdWord);
+				}
+				else
+				{
+					Console.WriteLine(player.Use(command.SecondWord));
+				}
+				break;
+
+
 
 		}
 

@@ -63,4 +63,14 @@ class Inventory
         }
         return result.Trim();
     }
+
+    public Item HasItem(string itemName)
+{
+    if (items.ContainsKey(itemName))
+    {
+        return items[itemName];
+    }
+    return null;
+}
+
 }
